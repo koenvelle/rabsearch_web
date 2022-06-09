@@ -3,3 +3,4 @@ geopy
 pysimplegui
 folium
 pyinstaller
+gunicorn
