@@ -4,3 +4,4 @@ pysimplegui
 folium
 pyinstaller
 gunicorn
+flask
