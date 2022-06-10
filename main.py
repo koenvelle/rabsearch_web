@@ -211,5 +211,5 @@ def index():
     return render_template("index.html", votes=votes, gemeentes=city_names, rollen=person_roles, resultaten=resultaten)
 
 if __name__ == '__main__':
-    app.run(threaded=True, processes=3)
+    app.run(threaded=False, processes=3)
 
