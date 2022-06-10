@@ -166,13 +166,18 @@ def get_progress():
     if rw_id not in rws.keys():
         print("get progress", file=sys.stderr)
         retval = -1
+        retresults = []
+        returls = []
     elif rws[rw_id].completion() == 100:
+        retresults = rws[rw_id].results()
+        returls = rws[rw_id].urls()
         retval = -1
     else :
+        retresults = rws[rw_id].results()
+        returls = rws[rw_id].urls()
         retval = rws[rw_id].completion()
 
-    return json.dumps( {'progress':retval, 'results': rws[rw_id].results(), 'urls' : rws[rw_id].urls() } )
-
+    return json.dumps( {'progress':retval, 'results': retresults , 'urls' : returls} )
 
 @app.route("/zoek_regio", methods=['POST'])
 def zoek_regio():
