@@ -18,7 +18,6 @@ app = Flask(__name__)
 
 votes = 0
 
-gemeentes={'Gistel', 'Brugge', 'Erps-Kwerps'}
 resultaten = [('koekelare','1.html'), ('oostende', '2')]
 progress = 0
 
@@ -100,14 +99,15 @@ class ResultsWorker(threading.Thread):
         self.__results = []
         self.__urls = []
         self.__match_indexes = match_indexes
+        self.__progress = 0
 
         threading.Thread.__init__(self)
 
-    def collect_results(self, values, gemeentes, results, match_indexes):
+    def collect_results(self):
 
-        self._progress = 0
-        for item in (gemeentes):
-            url = create_url(values, item)
+        self.__progress = 0
+        for item in (self.__gemeentes):
+            url = create_url(self.__values, item)
 
             if self.__stop_requested is False:
                 # Don't overload server....
@@ -121,20 +121,16 @@ class ResultsWorker(threading.Thread):
                     match = pattern.match(line)
                     if match is not None:
                         hit_count = match.groups()[2]
-                        results.append(item + ' (aantal : ' + hit_count + ')')
+                        self.__results.append(item + ' (aantal : ' + hit_count + ')')
                         self.__urls.append(url)
-                        match_indexes.append(len(results) -1)
-                        #name, (lat, lon) = get_city_location(item)
-                        #hit_map_locations.append([name, lat, lon, hit_count, url])
-                        #update_radius_results(results)
 
-                self._progress = self._progress + 1
+                self.__progress = self.__progress + 1
 
         self.__stop_requested = False
 
     def run(self):
         self.__done = False
-        self.collect_results(self.__values, self.__gemeentes, self.__results, self.__match_indexes)
+        self.collect_results()
         self.__done = True
         sys.exit()
 
@@ -151,10 +147,8 @@ class ResultsWorker(threading.Thread):
     def urls(self):
         return self.__urls
 
-
-
     def completion(self):
-        return int((self._progress * 100) / len(self.__gemeentes))
+        return int((self.__progress * 100) / len(self.__gemeentes))
 
     def stop(self):
         self.__stop_requested = True
@@ -193,20 +187,17 @@ def zoek_regio():
     match_indexes = []
     new_rw = ResultsWorker(request.form, search_locations, match_indexes)
     rw_id = len(rws) + 1
+    rws[rw_id] = new_rw
     new_rw.show_all(False)
     new_rw.start()
-    rws[rw_id] = new_rw
     return str(rw_id)
-
-
 
 @app.route("/")
 def index():
 
-    global resultaten
     resultaten = [];
     return render_template("index.html", votes=votes, gemeentes=city_names, rollen=person_roles, resultaten=resultaten)
 
 if __name__ == '__main__':
-    app.run(threaded=False, processes=3)
+    app.run(threaded=True, processes=3)
 
