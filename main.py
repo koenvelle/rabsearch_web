@@ -168,7 +168,7 @@ def get_progress():
     print("Requesting progress for workerid " + str(rw_id), file=sys.stderr)
 
     if rw_id not in rws.keys():
-        print("  worker id not in store, returning -1", file=sys.stderr)
+        print("  worker id " + str(rw_id) + " not in store "+ str(rws.keys()) +", returning -1", file=sys.stderr)
         retval = -1
         retresults = []
         returls = []
