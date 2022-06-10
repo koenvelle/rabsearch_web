@@ -190,6 +190,7 @@ def zoek_regio():
     rws[rw_id] = new_rw
     new_rw.show_all(False)
     new_rw.start()
+    print("zoek_regio_return", file=sys.stderr)
     return str(rw_id)
 
 @app.route("/")
