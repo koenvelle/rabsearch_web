@@ -20,7 +20,7 @@ votes = 0
 
 gemeentes={'Gistel', 'Brugge', 'Erps-Kwerps'}
 resultaten = [('koekelare','1.html'), ('oostende', '2')]
-progress = 0 
+progress = 0
 
 
 def create_url(values, gemeente):
@@ -63,13 +63,13 @@ def create_url(values, gemeente):
     #    periode = "&akteperiode=" + periode
 
     url = "https://search.arch.be/nl/zoeken-naar-personen/zoekresultaat/" + an1 + vn1 + rol1 + an2 + vn2 \
-	+ rol2 \
-	+ "q/zoekwijze/"+zoekwijze + "/" + beroep1 + "?M=" + zw_m + "&V=" + zw_v + "&O=" + zw_o + "&persoon_0_periode_geen=0&sort=akte_datum&direction=asc" \
-	+ gemeente 
-	#+ periode
+    + rol2 \
+    + "q/zoekwijze/"+zoekwijze + "/" + beroep1 + "?M=" + zw_m + "&V=" + zw_v + "&O=" + zw_o + "&persoon_0_periode_geen=0&sort=akte_datum&direction=asc" \
+    + gemeente
+    #+ periode
     #url = "https://search.arch.be/nl/zoeken-naar-personen/zoekresultaat/" + an1 + vn1 + rol1 + an2 + vn2 + rol2 + "?&sort=akte_datum&direction=asc" + gemeente
     return url
-	
+
 def get_places_in_radius(src, radius):
     matches = []
     if src != '' and (src in city_names):
@@ -88,7 +88,7 @@ def get_places_in_radius(src, radius):
                 matches.append(d[1])
 
     return matches
-	
+
 class ResultsWorker(threading.Thread):
 
     def __init__(self, values, gemeentes, match_indexes):
@@ -100,13 +100,12 @@ class ResultsWorker(threading.Thread):
         self.__results = []
         self.__urls = []
         self.__match_indexes = match_indexes
-		
+
         threading.Thread.__init__(self)
 
     def collect_results(self, values, gemeentes, results, match_indexes):
-	
+
         self._progress = 0
-        hit_map_locations = []
         for item in (gemeentes):
             url = create_url(values, item)
 
@@ -145,14 +144,14 @@ class ResultsWorker(threading.Thread):
     def clear(self):
         self.__done = False
         self.__stop_requested = False
-		
+
     def results(self):
         return self.__results
-		
+
     def urls(self):
         return self.__urls
 
-	
+
 
     def completion(self):
         return int((self._progress * 100) / len(self.__gemeentes))
@@ -162,40 +161,44 @@ class ResultsWorker(threading.Thread):
 
     def show_all(self, val=True):
         self.__show_all= val
-		
-rw  = None
 
-@app.route("/get_progress", methods=['POST'])
-def get_progress():	
-	retval = 0
-	if rw is None :
-		print("get progress", file=sys.stderr)
-		retval = -1
-	elif rw.completion() == 100:
-		retval = -1
-	else :
-		retval = rw.completion()
-		
-	return json.dumps( {'progress':retval, 'results': rw.results(), 'urls' : rw.urls() } )
-	
+rws  = dict()
+
+@app.route("/get_progress", methods=['GET'])
+def get_progress():
+    print("Requesting progress for workerid " + request.args["workerid"], file=sys.stderr)
+    rw_id = int(request.args["workerid"])
+
+    if rw_id not in rws.keys():
+        print("get progress", file=sys.stderr)
+        retval = -1
+    elif rws[rw_id].completion() == 100:
+        retval = -1
+    else :
+        retval = rws[rw_id].completion()
+
+    return json.dumps( {'progress':retval, 'results': rws[rw_id].results(), 'urls' : rws[rw_id].urls() } )
+
 
 @app.route("/zoek_regio", methods=['POST'])
 def zoek_regio():
-	global rw
-	progress = 0
-	print(request.form, file=sys.stderr)
-	aktegemeente = request.form['aktegemeente']
-	radius = int(request.form['radius'])
-	
-	# find all locations around 'aktegemeente'
-	search_locations = get_places_in_radius(aktegemeente, radius)
-	
-	match_indexes = []
-	rw  = ResultsWorker(request.form, search_locations, match_indexes)
-	rw.show_all(False)
-	rw.start()
-	
-	return render_template("index.html", votes=votes, gemeentes=city_names, rollen=person_roles, resultaten=resultaten)
+    global rws
+    print(request.args, file=sys.stderr)
+    aktegemeente = request.form['aktegemeente']
+    radius = int(request.form['radius'])
+
+    # find all locations around 'aktegemeente'
+    search_locations = get_places_in_radius(aktegemeente, radius)
+
+    match_indexes = []
+    new_rw = ResultsWorker(request.form, search_locations, match_indexes)
+    rw_id = len(rws) + 1
+    new_rw.show_all(False)
+    new_rw.start()
+    rws[rw_id] = new_rw
+    return str(rw_id)
+
+
 
 @app.route("/")
 def index():
@@ -203,7 +206,7 @@ def index():
     global resultaten
     resultaten = [];
     return render_template("index.html", votes=votes, gemeentes=city_names, rollen=person_roles, resultaten=resultaten)
-	
+
 if __name__ == '__main__':
     app.run(threaded=False, processes=3)
 

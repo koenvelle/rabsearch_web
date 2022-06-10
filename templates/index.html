@@ -10,13 +10,13 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
 
-  
-  
 
-  
+var workerid = 0;
+
  $(document).ready(function(){
  
   var pollInterval;
+
   
  $('#sample_form').on('submit', function(event){
    event.preventDefault();
@@ -34,16 +34,18 @@
    success:function(data)
    { 
 		console.log("ready");
+		console.log("data : " + data);
     	pollInterval = setInterval(get_progress, 1000);
+    	workerid = data;
    }
   })
   });
 
   function get_progress() {
+  	console.log("checking progress for worker id "+ workerid)
       $.ajax({
-   url:"/get_progress",
-   method:"POST",
-   data:$(this).serialize(),
+   url:"/get_progress?workerid="+workerid,
+   method:"GET",
    beforeSend:function()
    {
     $('#save').attr('disabled', 'disabled');
@@ -56,7 +58,7 @@
 	  completion = datalist['progress']
 	  results = datalist['results']
 	  urls = datalist['urls']
-	  console.log("get_progress " + completion)
+	  console.log("get_progress for workerid " + workerid + "="+ completion)
 	  resultstable = document.getElementById("results")
 	  resultstable.innerHTML = "";
 	  console.log(resultstable)
