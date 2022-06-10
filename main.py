@@ -112,7 +112,9 @@ class ResultsWorker(threading.Thread):
             if self.__stop_requested is False:
                 # Don't overload server....
                 time.sleep(.5)
+                print("  worker requests url " + url, file=sys.stderr)
                 r = requests.get(url)
+                print("  worker returned ", file=sys.stderr)
 
                 lines = str(r.content).split('\n')
                 pattern = re.compile(".*Resultaten\s(\d+\s)-\s(\d+\s)van\s(\d+\s).*")
@@ -125,6 +127,8 @@ class ResultsWorker(threading.Thread):
                         self.__urls.append(url)
 
                 self.__progress = self.__progress + 1
+
+        print("  worker done ", file=sys.stderr)
 
         self.__stop_requested = False
 
@@ -160,15 +164,16 @@ rws  = dict()
 
 @app.route("/get_progress", methods=['GET'])
 def get_progress():
-    print("Requesting progress for workerid " + request.args["workerid"], file=sys.stderr)
     rw_id = int(request.args["workerid"])
+    print("Requesting progress for workerid " + str(rw_id), file=sys.stderr)
 
     if rw_id not in rws.keys():
-        print("get progress", file=sys.stderr)
+        print("  worker id not in store, returning -1", file=sys.stderr)
         retval = -1
         retresults = []
         returls = []
     elif rws[rw_id].completion() == 100:
+        print("  worker complete", file=sys.stderr)
         retresults = rws[rw_id].results()
         returls = rws[rw_id].urls()
         retval = -1
@@ -176,6 +181,7 @@ def get_progress():
         retresults = rws[rw_id].results()
         returls = rws[rw_id].urls()
         retval = rws[rw_id].completion()
+        print("  worker at " + str(retval), file=sys.stderr)
 
     return json.dumps( {'progress':retval, 'results': retresults , 'urls' : returls} )
 
