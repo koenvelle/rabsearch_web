@@ -107,11 +107,12 @@ var workerid = 0;
 		<style>
 		
 		body {
-			background-color: #78C7C7;
+		    font-family: "Times New Roman", Times, serif;
+			background-color: #BBBBBB;
 		}
 
 		div {
-			background-color: #78C7C7;
+			background-color: #BBBBBB;
 		}
 		table {
 		  border-collapse: collapse;
@@ -134,17 +135,46 @@ var workerid = 0;
 
 
 		.personen {
-			margin: 10px;
+		}
+
+		fieldset {
+			border: 1px black solid;
+			-webkit-box-shadow: 5px 5px 5px 0px rgba(50, 50, 50, 0.75);
+			-moz-box-shadow:    5px 5px 5px 0px rgba(50, 50, 50, 0.75);
+			box-shadow:         5px 5px 5px 0px rgba(50, 50, 50, 0.75);
+		}
+
+		legend {
+			border: 2px orange solid;
+			padding: 0.2em 0.8em;
+			margin:2px;
 		}
 
 		.pers1 {
+			padding:10px;
+		  	vertical-align: top;
+			display:inline-block;
+			width:600px;
+			height: 18em;
+			margin: 10px;
 		}
-		
+
 		.pers2 {
+			padding:10px;
+		  	vertical-align: top;
+			display:inline-block;
+			width:600px;
+			height: 18em;
+			margin:10px;
 		}
 		
 		.zoekregio {
-			margin: 10px;
+			padding:10px;
+		  	vertical-align: top;
+			display:inline-block;
+			width:600px;
+			height: 15em;
+			margin:10px;
 		}
 
 		.progresscontainer{
@@ -159,30 +189,31 @@ var workerid = 0;
 			display: block;
 			height: 10px;
 			float: left;
-			width: 400px;
+			width: 100%;
 		}
 
 		.resultscontainer {
-			margin: 10px;
-			float: left;
-			width: 500px;
-			height:300px;
+			padding:10px;
+		  	vertical-align: top;
+			display:inline-block;
+			width:600px;
+			min-height: 300px;
+			max-height: 600px;
+			margin:10px;
 			overflow:hidden;
-			overflow-y: auto;
-			background-color: gray;
+			overflow-y: auto;;
 		}
 
 		.resultstable {
-			background-color: #78C7C7;
+			background-color: #BBBBBB;
 			width:100%;
 			position: sticky;
 			top: 0;
 		}
 
 		.resultstable tr:hover {
-			  color: hotpink;
 			  text-decoration: underline;
-			  background-color: #AFEEEE;
+			  background-color: orange;
 		}
 		.resultstable tr:nth-child(even) {
 		  background-color: white;
@@ -243,110 +274,111 @@ var workerid = 0;
 
 			<form action="{{ url_for('zoek_regio') }}" method="post" id="sample_form">
 						<div class="personen">
-							<div class="pers1">
-							<table >
-								<tr><td><label><h3>Persoon 1</h3> </label></td></tr>
-								<tr><td><label>Naam </label></td><td><input name="pers1_achternaam"  size=30></input></td></tr>
-								<tr><td><label>Voornaam </label></td><td><input name="pers1_voornaam"  size=30></input></td></tr>
-								<tr>
-									<td><label>Rol </label></td>
-									<td>
-										<select name="pers1_rol">
-										{% for id, rol in rollen %}
-										<option value='{{rol}}'>{{rol}}</option>
-										{% endfor %}
-										</select>
-									</td>
-								</tr>
-								<tr><td><label>Beroep </label></td><td><input name="pers1_beroep"  size=30></input></td></tr>
-								<tr>
-									<td><label>Geslacht </label></td>
-									<td>
-										<input type="checkbox" name="zw_m" id="zw_m" value="1" >M </input>
-										<input type="checkbox" name="zw_v" id="zw_v" value="1" >V </input>
-										<input type="checkbox" name="zw_o" id="zw_o" value="1">Niet vermeld</input>
-									</td>
-								</tr>
-								<tr>
-									<td><label>Zoekwijze </label></td>
-									<td>
-										<input type="radio" name="matchtype" id="mt_exact" value="Exact" checked="checked">Exact </input>
-										<input type="radio" name="matchtype" id="mt_klinkt" value="Klinkt" >Klinkt als </input>
-									</td>
-								</tr>
-							</table>
+							<fieldset class="pers1">
+	  							<legend class="legend">Persoon 1</legend>
+								<table >
+									<tr><td><label>Naam </label></td><td><input name="pers1_achternaam"  size=30></input></td></tr>
+									<tr><td><label>Voornaam </label></td><td><input name="pers1_voornaam"  size=30></input></td></tr>
+									<tr>
+										<td><label>Rol </label></td>
+										<td>
+											<select name="pers1_rol">
+											{% for id, rol in rollen %}
+											<option value='{{rol}}'>{{rol}}</option>
+											{% endfor %}
+											</select>
+										</td>
+									</tr>
+									<tr><td><label>Beroep </label></td><td><input name="pers1_beroep"  size=30></input></td></tr>
+									<tr>
+										<td><label>Geslacht </label></td>
+										<td>
+											<input type="checkbox" name="zw_m" id="zw_m" value="1" >M </input>
+											<input type="checkbox" name="zw_v" id="zw_v" value="1" >V </input>
+											<input type="checkbox" name="zw_o" id="zw_o" value="1">Niet vermeld</input>
+										</td>
+									</tr>
+									<tr>
+										<td><label>Zoekwijze </label></td>
+										<td>
+											<input type="radio" name="matchtype" id="mt_exact" value="Exact" checked="checked">Exact </input>
+											<input type="radio" name="matchtype" id="mt_klinkt" value="Klinkt" >Klinkt als </input>
+										</td>
+									</tr>
+								</table>
+							</fieldset>
+
+							<fieldset class="pers2">
+	  							<legend class="legend">Persoon 2</legend>
+								<table>
+									<tr><td><label>Naam </label></td><td><input name="pers2_achternaam" size=30></input></td></tr>
+									<tr><td><label>Voornaam </label></td><td><input name="pers2_voornaam" size=30></input></td></tr>
+									<tr>
+										<td><label>Rol </label></td>
+										<td>
+											<select name="pers2_rol">
+											{% for id, rol in rollen %}
+											<option value='{{rol}}'>{{rol}}</option>
+											{% endfor %}
+											</select>
+										</td>
+									</tr>
+								</table>
+							</fieldset>
 							</div>
 
-							<div class="pers2">
-							<table>
-								<tr><td><label><h3>Persoon 2</h3> </label></td></tr>
-								<tr><td><label>Naam </label></td><td><input name="pers2_achternaam" size=30></input></td></tr>
-								<tr><td><label>Voornaam </label></td><td><input name="pers2_voornaam" size=30></input></td></tr>
-								<tr>
-									<td><label>Rol </label></td>
-									<td>
-										<select name="pers2_rol">
-										{% for id, rol in rollen %}
-										<option value='{{rol}}'>{{rol}}</option>
-										{% endfor %}
-										</select>
-									</td>
-								</tr>
-							</table>
-							</div>
-						</div>
 
 
+							<fieldset class="zoekregio">
+	  							<legend class="legend">Zoekregio</legend>
+									<table>
+									<tr>
+										<td><label>Aktegemeente </label></td>
+										<td>
+											<select name="aktegemeente" id="aktegemeente">
+											{% for gemeente in gemeentes %}
+											<option value='{{gemeente}}'>{{gemeente}}</option>
+											{% endfor %}
+											</select>
+										</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td><label>Radius</label></td>
+										<td>
+										<div class="range">
+										<input  name="radius" id="range_slider" type="range" min="0" max="50" value="10" oninput="update_range()"></input>
+										</div>
+										</td>
+									</tr>
+									<tr>
+										<td></td>
+										<td> <output id="range_km">10 km</output></td>
+									</tr>
 
-						<div class="zoekregio ">
-							<table>
-							<tr><td><label><h3>Zoekregio<h3> </label></td><tr>
-							<tr>
-								<td><label>Aktegemeente </label></td>
-								<td>
-									<select name="aktegemeente" id="aktegemeente">
-									{% for gemeente in gemeentes %}
-									<option value='{{gemeente}}'>{{gemeente}}</option>
-									{% endfor %}
-									</select>
-								</td>
-								<td></td>
-							</tr>
-							<tr>
-								<td><label>Radius</label></td>
-								<td>
-								<div class="range">
-								<input  name="radius" id="range_slider" type="range" min="0" max="50" value="10" oninput="update_range()"></input>
-								</div>
-								</td>
-							</tr>
-							<tr>
-								<td></td>
-								<td> <output id="range_km">10 km</output></td>
-							</tr>
+									<tr><td><br></td></tr>
+									<tr>
+										<td><input id="submit" type="submit" name="zoek_regio" value="Zoek in omtrek"></input></td>
+									</tr>
 
-							<tr><td><br></td></tr>
-							<tr>
-								<td><input id="submit" type="submit" name="zoek_regio" value="Zoek in omtrek"></input></td>
-							</tr>
-
-							</table>
-						</div>
+									</table>
+							</fieldset>
 			</form>
 
-			<div class="resultscontainer shadow" >
-				<div class="progresscontainer">
-					<div class="progress-bar progress-bar-striped active bg-success" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-					</div>
-				</div>
+							<fieldset class="resultscontainer">
+	  							<legend class="legend">Resultaten</legend>
+								<div class="progresscontainer">
+									<div class="progress-bar progress-bar-striped active bg-success" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+									</div>
+								</div>
 
-				<table id="results" class="resultstable">
-				<caption>Zoekresultaten</caption>
-				{% for gemeente,url in resultaten %}
-				<tr onclick="window.open('{{url}}')";><td><A href="{{url}}"> {{gemeente}}</a></td></tr>
-				{% endfor %}
-				</table>
-			</div>
+								<table id="results" class="resultstable">
+								<caption>Zoekresultaten</caption>
+								{% for gemeente,url in resultaten %}
+								<tr onclick="window.open('{{url}}')";><td><A href="{{url}}"> {{gemeente}}</a></td></tr>
+								{% endfor %}
+								</table>
+							</fieldset>
 
 
     </body>
