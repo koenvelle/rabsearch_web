@@ -115,18 +115,19 @@ var workerid = 0;
 			background-color: #BBBBBB;
 		}
 		table {
-		  border-collapse: collapse;
 		}
 
 		th, td {
 		  text-align: left;
+		  padding-right: 10px;
+		  padding-bottom: 5px;
 		}
 
 		.range
 		{
 			width: 400px;
 		}
-		
+
 		.shadow {
 			-webkit-box-shadow: 5px 5px 5px 0px rgba(50, 50, 50, 0.75);
 			-moz-box-shadow:    5px 5px 5px 0px rgba(50, 50, 50, 0.75);
@@ -142,6 +143,12 @@ var workerid = 0;
 			-webkit-box-shadow: 5px 5px 5px 0px rgba(50, 50, 50, 0.75);
 			-moz-box-shadow:    5px 5px 5px 0px rgba(50, 50, 50, 0.75);
 			box-shadow:         5px 5px 5px 0px rgba(50, 50, 50, 0.75);
+			padding:10px;
+		  	vertical-align: top;
+			display:inline-block;
+			width:600px;
+			height: 18em;
+			margin:10px;
 		}
 
 		legend {
@@ -151,30 +158,22 @@ var workerid = 0;
 		}
 
 		.pers1 {
-			padding:10px;
-		  	vertical-align: top;
-			display:inline-block;
-			width:600px;
-			height: 18em;
-			margin: 10px;
 		}
 
 		.pers2 {
-			padding:10px;
-		  	vertical-align: top;
-			display:inline-block;
-			width:600px;
-			height: 18em;
-			margin:10px;
 		}
-		
+
+		.help {
+			background-color:black;
+			display:none;
+			position:absolute;
+			margin-left:auto;
+			margin-right:auto;
+			height:40em;
+		}
+
 		.zoekregio {
-			padding:10px;
-		  	vertical-align: top;
-			display:inline-block;
-			width:600px;
-			height: 15em;
-			margin:10px;
+
 		}
 
 		.progresscontainer{
@@ -193,15 +192,10 @@ var workerid = 0;
 		}
 
 		.resultscontainer {
-			padding:10px;
-		  	vertical-align: top;
-			display:inline-block;
-			width:600px;
 			min-height: 300px;
 			max-height: 550px;
-			margin:10px;
 			overflow:hidden;
-			overflow-y: auto;;
+			overflow-y: auto;
 		}
 
 		.resultstable {
@@ -265,9 +259,9 @@ var workerid = 0;
 }
 
 
-		
 
-		
+
+
 	</style>
     </head>
     <body>
@@ -328,7 +322,6 @@ var workerid = 0;
 							</div>
 
 
-
 							<fieldset class="zoekregio">
 	  							<legend class="legend">Zoekregio</legend>
 									<table>
@@ -347,13 +340,12 @@ var workerid = 0;
 										<td><label>Radius</label></td>
 										<td>
 										<div class="range">
-										<input  name="radius" id="range_slider" type="range" min="0" max="50" value="10" oninput="update_range()"></input>
+										 <output id="range_km">10 km</output> <input name="radius" id="range_slider" type="range" min="0" max="50" value="10" oninput="update_range()"></input>
 										</div>
 										</td>
 									</tr>
 									<tr>
 										<td></td>
-										<td> <output id="range_km">10 km</output></td>
 									</tr>
 									<tr>
 										<td><label>Periode</label></td>
@@ -369,6 +361,7 @@ var workerid = 0;
 
 									</table>
 							</fieldset>
+
 			</form>
 
 							<fieldset class="resultscontainer">
