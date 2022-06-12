@@ -30,13 +30,14 @@ def create_url(values, gemeente):
     beroep1 = values['pers1_beroep']
     rol1 = values['pers1_rol']
     rol2 = values['pers2_rol']
-    #periode = values['akteperiode']
+    periode = values['akteperiode']
     zw_m = '1' if 'zw_m' in values.keys() and values['zw_m'] == '1' else '0'
     zw_v = '1' if 'zw_v' in values.keys() and values['zw_v'] == '1' else '0'
     zw_o = '1' if 'zw_o' in values.keys() and values['zw_o'] == '1' else '0'
 
+    print(periode, file=sys.stderr)
+
     zoekwijze = 's' if values['matchtype'] == 'Exact' else 'p'
-    zoekwijze = 's'
 
     if vn1 != '':
         vn1 = "q/persoon_voornaam_t_0/" + vn1 + '/'
@@ -58,14 +59,13 @@ def create_url(values, gemeente):
         gemeente = "&aktegemeente=" + gemeente
     if '(' in gemeente:
         gemeente = gemeente.split('(')[0]
-    #if periode != '':
-    #    periode = "&akteperiode=" + periode
+    if periode != '':
+        periode = "&akteperiode=" + periode
 
     url = "https://search.arch.be/nl/zoeken-naar-personen/zoekresultaat/" + an1 + vn1 + rol1 + an2 + vn2 \
     + rol2 \
     + "q/zoekwijze/"+zoekwijze + "/" + beroep1 + "?M=" + zw_m + "&V=" + zw_v + "&O=" + zw_o + "&persoon_0_periode_geen=0&sort=akte_datum&direction=asc" \
-    + gemeente
-    #+ periode
+    + gemeente + periode
     #url = "https://search.arch.be/nl/zoeken-naar-personen/zoekresultaat/" + an1 + vn1 + rol1 + an2 + vn2 + rol2 + "?&sort=akte_datum&direction=asc" + gemeente
     return url
 
