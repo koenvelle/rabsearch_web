@@ -11,16 +11,10 @@ import re
 import threading
 from geopy import distance
 import time
-
-#host on heroku
+import folium
 
 app = Flask(__name__)
-
-votes = 0
-
-resultaten = [('koekelare','1.html'), ('oostende', '2')]
 progress = 0
-
 
 def create_url(values, gemeente):
     vn1 = values['pers1_voornaam']
@@ -98,10 +92,30 @@ class ResultsWorker(threading.Thread):
         self.__values = values
         self.__results = []
         self.__urls = []
+        self.__hitmap_locations = []
         self.__match_indexes = match_indexes
         self.__progress = 0
 
         threading.Thread.__init__(self)
+
+    def generate_hit_map(self):
+        radius = self.__values['radius']
+        x, centre = get_city_location(self.__gemeentes[0])
+        m = folium.Map(location=centre, zoom_start=10, height=550)
+        #circle = folium.Circle(location=centre, radius=radius * 1000)
+        #circle.add_to(m)
+
+
+        if len(self.__gemeentes):
+
+            for location in self.__hitmap_locations:
+                marker = folium.Marker(
+                    [location[1], location[2]],
+                    popup="<a href=" + location[4] + "> Aantal hits: " + location[3] + "</a>",
+                    tooltip=location[0] + " hits: " + location[3]
+                )
+                marker.add_to(m)
+        return m._repr_html_()
 
     def collect_results(self):
 
@@ -125,6 +139,8 @@ class ResultsWorker(threading.Thread):
                         hit_count = match.groups()[2]
                         self.__results.append(item + ' (aantal : ' + hit_count + ')')
                         self.__urls.append(url)
+                        name, (lat, lon) = get_city_location(item)
+                        self.__hitmap_locations.append([name, lat, lon, hit_count, url])
 
                 self.__progress = self.__progress + 1
 
@@ -161,6 +177,24 @@ class ResultsWorker(threading.Thread):
         self.__show_all= val
 
 rws  = dict()
+
+@app.route("/get_map", methods=['GET'])
+def get_map():
+    rw_id = int(request.args["workerid"])
+    print("Requesting map for workerid " + str(rw_id), file=sys.stderr)
+
+    if rw_id not in rws.keys():
+        print("  worker id " + str(rw_id) + " not in store "+ str(rws.keys()) +", returning -1", file=sys.stderr)
+    elif rws[rw_id].completion() == 100:
+        print("  worker complete", file=sys.stderr)
+        map = rws[rw_id].generate_hit_map()
+        print(map, file=sys.stderr)
+        return map
+    else :
+        map = rws[rw_id].generate_hit_map()
+        return map
+    return
+
 
 @app.route("/get_progress", methods=['GET'])
 def get_progress():
@@ -208,7 +242,7 @@ def zoek_regio():
 def index():
 
     resultaten = [];
-    return render_template("index.html", votes=votes, gemeentes=city_names, rollen=person_roles, resultaten=resultaten)
+    return render_template("index.html",gemeentes=city_names, rollen=person_roles, resultaten=resultaten)
 
 if __name__ == '__main__':
     app.run(threaded=False, processes=3)

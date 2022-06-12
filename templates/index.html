@@ -13,10 +13,28 @@
 
 var workerid = 0;
 
+  function toon_kaart() {
+  	console.log("getting map for worker id "+ workerid)
+      $.ajax({
+   url:"/get_map?workerid="+workerid,
+   method:"GET",
+   beforeSend:function()
+   {
+    $('#save').attr('disabled', 'disabled');
+    $('#process').css('display', 'block');
+   },
+   success:function(data)
+   {
+      console.log(data)
+	  document.getElementById("kaart").innerHTML = data ;
+   }
+  })
+  };
+
+
  $(document).ready(function(){
  
   var pollInterval;
-
   
  $('#sample_form').on('submit', function(event){
    event.preventDefault();
@@ -37,6 +55,7 @@ var workerid = 0;
 		console.log("data : " + data);
     	pollInterval = setInterval(get_progress, 1000);
     	workerid = data;
+		toon_kaart();
    }
   })
   });
@@ -52,8 +71,7 @@ var workerid = 0;
     $('#process').css('display', 'block');
    },
    success:function(data)
-   { 
-		
+   {
 	  datalist = JSON.parse(data);
 	  completion = datalist['progress']
 	  results = datalist['results']
@@ -73,13 +91,15 @@ var workerid = 0;
 	  
       progress_bar_process(parseInt(completion));
 	  if (parseInt(completion) == -1) {
+		toon_kaart();
 		console.log("search complete");
 		document.getElementById("submit").disabled = false
 	  }
    }
   })
   };
-  
+
+
     
   function progress_bar_process(percentage)
   {
@@ -107,6 +127,11 @@ var workerid = 0;
 		<style>
 		
 		body {
+		    font-family: "Times New Roman", Times, serif;
+			background-color: #BBBBBB;
+		}
+
+		.folium-map {
 		    font-family: "Times New Roman", Times, serif;
 			background-color: #BBBBBB;
 		}
@@ -200,7 +225,8 @@ var workerid = 0;
 
 		.resultscontainer {
 			min-height: 300px;
-			max-height: 550px;
+			max-height: 600px;
+			height:420px;
 			overflow:hidden;
 			overflow-y: auto;
 		}
@@ -262,6 +288,10 @@ var workerid = 0;
 		/* Handle on hover */
 		::-webkit-scrollbar-thumb:hover {
 		  background: #555;
+		}
+
+		fieldset#fskaart{
+		height:420px;
 		}
 }
 
@@ -379,15 +409,17 @@ var workerid = 0;
 							<fieldset class="resultscontainer">
 	  							<legend class="legend">Resultaten</legend>
 
-
 								<table id="results" class="resultstable">
-								<caption>Zoekresultaten</caption>
 								{% for gemeente,url in resultaten %}
 								<tr onclick="window.open('{{url}}')";><td><A href="{{url}}"> {{gemeente}}</a></td></tr>
 								{% endfor %}
 								</table>
 							</fieldset>
+	<fieldset id="fskaart">
+	<legend class="legend">Kaart</legend>
+		<div id="kaart" ></div>
 
+	</fieldset>
 
     </body>
 </html>
