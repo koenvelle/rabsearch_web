@@ -222,6 +222,8 @@ def get_progress():
 @app.route("/zoek_regio", methods=['POST'])
 def zoek_regio():
     global rws
+    r = requests.get("http://www.koenvelle.be/rabsearch/zoek_regio")
+    print(r, file=sys.stderr)
     print(request.args, file=sys.stderr)
     aktegemeente = request.form['aktegemeente']
     radius = int(request.form['radius'])
@@ -240,7 +242,8 @@ def zoek_regio():
 
 @app.route("/")
 def index():
-
+    r = requests.get("http://www.koenvelle.be/rabsearch/visit")
+    print(r, file=sys.stderr)
     resultaten = [];
     return render_template("index.html",gemeentes=city_names, rollen=person_roles, resultaten=resultaten)
 
