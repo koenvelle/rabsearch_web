@@ -1,0 +1,311 @@
+		body {
+			background-color: #BBBBBB;
+		    font-family: "Times New Roman", Times, serif;
+		}
+
+
+		.folium-map {
+		    font-family: "Times New Roman", Times, serif;
+			background-color: #BBBBBB;
+		}
+
+		div {
+			background-color: #BBBBBB;
+		}
+
+		table {
+		}
+
+		th, td {
+		  text-align: left;
+		  padding-right: 10px;
+		  padding-bottom: 5px;
+		}
+
+		.range
+		{
+			width: 400px;
+		}
+
+		.shadow {
+			-webkit-box-shadow: 5px 5px 5px 0px rgba(50, 50, 50, 0.75);
+			-moz-box-shadow:    5px 5px 5px 0px rgba(50, 50, 50, 0.75);
+			box-shadow:         5px 5px 5px 0px rgba(50, 50, 50, 0.75);
+		}
+
+
+		.personen {
+		}
+
+		.fieldset {
+		    -moz-border-radius:8px;
+			-webkit-border-radius:8px;
+			border-radius:8px;
+			border: 1px black solid;
+			-webkit-box-shadow: 5px 5px 5px 0px rgba(50, 50, 50, 0.75);
+			-moz-box-shadow:    5px 5px 5px 0px rgba(50, 50, 50, 0.75);
+			box-shadow:         5px 5px 5px 0px rgba(50, 50, 50, 0.75);
+			padding:10px;
+		  	vertical-align: top;
+			display:inline-block;
+			width:600px;
+			height: 15em;
+			margin:10px;
+		}
+
+
+        @-webkit-keyframes progress-bar-stripes {
+          from {
+            background-position: 40px 0;
+          }
+          to {
+            background-position: 0 0;
+          }
+        }
+        @-o-keyframes progress-bar-stripes {
+          from {
+            background-position: 40px 0;
+          }
+          to {
+            background-position: 0 0;
+          }
+        }
+        @keyframes progress-bar-stripes {
+          from {
+            background-position: 40px 0;
+          }
+          to {
+            background-position: 0 0;
+          }
+        }
+        .progress {
+          height: 20px;
+          margin-bottom: 20px;
+          overflow: hidden;
+          background-color: #f5f5f5;
+          border-radius: 4px;
+          -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+                  box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+        }
+        .progress-bar {
+          float: left;
+          width: 0;
+          height: 100%;
+          font-size: 12px;
+          line-height: 20px;
+          color: #fff;
+          text-align: center;
+          background-color: #337ab7;
+          -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .15);
+                  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .15);
+          -webkit-transition: width .6s ease;
+               -o-transition: width .6s ease;
+                  transition: width .6s ease;
+        }
+        .progress-striped .progress-bar,
+        .progress-bar-striped {
+          background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+          background-image:      -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+          background-image:         linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+          -webkit-background-size: 40px 40px;
+                  background-size: 40px 40px;
+        }
+        .progress.active .progress-bar,
+        .progress-bar.active {
+          -webkit-animation: progress-bar-stripes 2s linear infinite;
+               -o-animation: progress-bar-stripes 2s linear infinite;
+                  animation: progress-bar-stripes 2s linear infinite;
+        }
+        .progress-bar-success {
+          background-color: #5cb85c;
+        }
+        .progress-striped .progress-bar-success {
+          background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+          background-image:      -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+          background-image:         linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+        }
+        .progress-bar-info {
+          background-color: #5bc0de;
+        }
+        .progress-striped .progress-bar-info {
+          background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+          background-image:      -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+          background-image:         linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+        }
+        .progress-bar-warning {
+          background-color: #f0ad4e;
+        }
+        .progress-striped .progress-bar-warning {
+          background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+          background-image:      -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+          background-image:         linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+        }
+        .progress-bar-danger {
+          background-color: #d9534f;
+        }
+        .progress-striped .progress-bar-danger {
+          background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+          background-image:      -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+          background-image:         linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+        }
+		.legend {
+			-moz-border-radius:8px;
+			-webkit-border-radius:8px;
+			border-radius:8px;
+			border: 2px orange solid;
+			padding: 0.2em 0.8em;
+			margin:2px;
+			font-weight:bold;
+			-webkit-box-shadow: 5px 5px 5px 0px rgba(50, 50, 50, 0.75);
+			-moz-box-shadow:    5px 5px 5px 0px rgba(50, 50, 50, 0.75);
+			box-shadow:         5px 5px 5px 0px rgba(50, 50, 50, 0.75);
+		}
+
+		.pers1 {
+		}
+
+		.pers2 {
+		}
+
+		.help {
+			background-color:black;
+			display:none;
+			position:absolute;
+			margin-left:auto;
+			margin-right:auto;
+			height:40em;
+		}
+
+		.zoekregio {
+
+		}
+
+		.progresscontainer{
+			background-color = #navjowhite;
+			display: block;
+			float: left;
+			width: 100%;
+			padding-top : 5px;
+		}
+
+		.progress-bar {
+			background-color: orange;
+			display: block;
+			height: 10px;
+			float: left;
+			width: 100%;
+		}
+
+		.resultscontainer {
+			min-height: 300px;
+			max-height: 600px;
+			height:420px;
+			overflow:hidden;
+			overflow-y: auto;
+		}
+
+		.resultstable {
+			background-color: #BBBBBB;
+			width:100%;
+			position: sticky;
+			top: 0;
+		}
+
+		.resultstable tr:hover {
+			  text-decoration: underline;
+			  background-color: orange;
+		}
+		.resultstable tr:nth-child(even) {
+		  background-color: navajowhite;
+		}
+
+		/* unvisited link */
+		.resultstable a:link {
+		  color: black;
+		  text-decoration: none;
+		}
+
+		/* visited link */
+		.resultstable a:visited {
+		  color: gray;
+		  text-decoration: none;
+		}
+
+		/* mouse over link */
+		.resultstable a:hover {
+		  color: hotpink;
+		  text-decoration: underline;
+		}
+
+		/* selected link */
+		.resultstable a:active {
+		  color: blue;
+		  text-decoration: none;
+		}
+
+		/* width */
+		::-webkit-scrollbar {
+		  width: 10px;
+		}
+
+		/* Track */
+		::-webkit-scrollbar-track {
+		  background: #f1f1f1;
+		}
+
+		/* Handle */
+		::-webkit-scrollbar-thumb {
+		  background: #888;
+		}
+
+		/* Handle on hover */
+		::-webkit-scrollbar-thumb:hover {
+		  background: #555;
+		}
+
+		fieldset#fskaart{
+		height:420px;
+		}
+
+		/* Style the tab */
+		.tab {
+		  overflow: hidden;
+		  background-color: #f1f1f1;
+		}
+
+		/* Style the buttons inside the tab */
+		.tab button {
+			-moz-border-radius:8px;
+			-webkit-border-radius:8px;
+			border-radius:8px;
+		  background-color: #BBBBBB;
+		  border-top: none;
+		  border-right: 1px solid #333333;
+		  border-left: 1px solid black;
+		  border-bottom: none;
+		  float: left;
+		  outline: none;
+		  cursor: pointer;
+		  padding: 14px 16px;
+		  transition: 0.3s;
+		  font-size: 17px;
+		}
+
+		/* Change background color of buttons on hover */
+		.tab button:hover {
+		  background-color: #ddd;
+		}
+
+		/* Create an active/current tablink class */
+		.tab button.active {
+		  background-color: orange;
+		}
+
+		/* Style the tab content */
+		.tab_content {
+		  display: none;
+		  padding: 6px 12px;
+		}
+	    .tab_content#tab_personen {
+	     display: block;
+	    }
