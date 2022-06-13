@@ -34,6 +34,38 @@ var workerid = 0;
 
  $(document).ready(function(){
 
+// Find all inputs on the DOM which are bound to a datalist via their list attribute.
+var inputs = document.querySelectorAll('input[list]');
+for (var i = 0; i < inputs.length; i++) {
+	// When the value of the input changes...
+
+	inputs[i].addEventListener('pointerdown', function() {
+	  console.log("click " + this.id);
+	  this.value = '';
+	});
+	inputs[i].addEventListener('change', function() {
+		console.log("changed " + this.id);
+		control = this;
+		var optionFound = false;
+		datalist = control.list;
+
+		// Determine whether an option exists with the current value of the input.
+		for (var j = 0; j < datalist.options.length; j++) {
+			if (control.value == datalist.options[j].value) {
+				optionFound = true;
+				break;
+			}
+		}
+		// use the setCustomValidity function of the Validation API
+		// to provide an user feedback if the value does not exist in the datalist
+		if (optionFound) {
+			control.setCustomValidity('');
+		} else {
+			this.value = datalist.options[0].value;
+		}
+	});
+}
+
   document.getElementById("link_personen").className += " active";
 
  
@@ -143,6 +175,7 @@ var workerid = 0;
 	}
 
 </script>
+
 
 		<style>
 		
@@ -379,6 +412,11 @@ var workerid = 0;
 	<div id="tab_personen" class="tab_content">
 			<form action="{{ url_for('zoek_regio') }}" method="post" id="sample_form">
 						<div class="personen">
+							<datalist id="rollen">
+							{% for id, rol in rollen %}
+							<option value='{{rol}}'>{{rol}}</option>
+							{% endfor %}
+							</datalist>
 							<fieldset class="pers1">
 	  							<legend class="legend">Persoon 1</legend>
 								<table >
@@ -387,11 +425,7 @@ var workerid = 0;
 									<tr>
 										<td><label>Rol </label></td>
 										<td>
-											<select name="pers1_rol">
-											{% for id, rol in rollen %}
-											<option value='{{rol}}'>{{rol}}</option>
-											{% endfor %}
-											</select>
+											<input list="rollen" name="pers1_rol" id="pers1_rol"/>
 										</td>
 									</tr>
 									<tr><td><label>Beroep </label></td><td><input name="pers1_beroep"  size=30></input></td></tr>
@@ -421,11 +455,7 @@ var workerid = 0;
 									<tr>
 										<td><label>Rol </label></td>
 										<td>
-											<select name="pers2_rol">
-											{% for id, rol in rollen %}
-											<option value='{{rol}}'>{{rol}}</option>
-											{% endfor %}
-											</select>
+											<input list="rollen" name="pers2_rol" id="pers2_rol"/>
 										</td>
 									</tr>
 								</table>
@@ -439,11 +469,12 @@ var workerid = 0;
 									<tr>
 										<td><label>Aktegemeente </label></td>
 										<td>
-											<select name="aktegemeente" id="aktegemeente">
+											<input list="aktegemeentes" name="aktegemeente" id="aktegemeente"/>
+											<datalist id="aktegemeentes">
 											{% for gemeente in gemeentes %}
 											<option value='{{gemeente}}'>{{gemeente}}</option>
 											{% endfor %}
-											</select>
+											</datalist>
 										</td>
 										<td></td>
 									</tr>
