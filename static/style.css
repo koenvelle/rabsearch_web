@@ -270,7 +270,6 @@
 		/* Style the tab */
 		.tab {
 		  overflow: hidden;
-		  background-color: #f1f1f1;
 		}
 
 		/* Style the buttons inside the tab */
@@ -279,14 +278,14 @@
 			-webkit-border-radius:8px;
 			border-radius:8px;
 		  background-color: #BBBBBB;
-		  border-top: none;
-		  border-right: 1px solid #333333;
-		  border-left: 1px solid black;
+		  border-top:  2px solid #333333;
+		  border-right: 2px solid #333333;
+		  border-left: 2px solid #333333;
 		  border-bottom: none;
 		  float: left;
 		  outline: none;
 		  cursor: pointer;
-		  padding: 14px 16px;
+		  padding: 2px 2px;
 		  transition: 0.3s;
 		  font-size: 17px;
 		}
