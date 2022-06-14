@@ -284,7 +284,12 @@
 		}
 
 		fieldset#fskaart{
+
 		height:420px;
+		}
+
+		.kaart {
+		margin-top:10px;
 		}
 
 		/* Style the tab */
@@ -294,7 +299,8 @@
 
 		/* Style the buttons inside the tab */
 		.tab button {
-			-moz-border-radius:8px;
+		  font-size:1.5em;
+		    -moz-border-radius:8px;
 			-webkit-border-radius:8px;
 			border-radius:8px;
 		  -moz-border-bottom-left-radius:0px;
@@ -313,7 +319,6 @@
 		  cursor: pointer;
 		  padding: 2px 2px;
 		  transition: 0.3s;
-		  font-size: 17px;
 		}
 
 		/* Change background color of buttons on hover */

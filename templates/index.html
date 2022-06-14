@@ -210,11 +210,15 @@
 				tabcontent[i].style.display = "none";
 			  }
 			  tablinks = document.getElementsByClassName("tab_links");
+			  console.log(tablinks)
 			  for (i = 0; i < tablinks.length; i++) {
 				tablinks[i].className = tablinks[i].className.replace(" active", "");
+				console.log("setting "+ tablinks[i].id)
+
 			  }
 			  document.getElementById(tabName).style.display = "block";
 			  evt.currentTarget.className += " active";
+			  console.log("clearing "+ evt.currentTarget.id)
 			}
 
 		function help(type) {
@@ -257,10 +261,10 @@
 	<div class="tab">
 	  <button class="tab_links shadow" id="link_personen" style="margin-left:20px;" onclick="openTab(event, 'tab_personen')">Personen</button>
 		<!--
-	  <button class="tab_links shadow" onclick="openTab(event, 'tab_archieven')">Archieven</button>
+	  <button class="tab_links shadow" id="link_archieven" onclick="openTab(event, 'tab_archieven')">Archieven</button>
 	  -->
-	  <button class="tab_links shadow" onclick="openTab(event, 'tab_links')">Links</button>
-	  <button class="tab_links shadow" onclick="openTab(event, 'tab_help')">Help</button>
+	  <button class="tab_links shadow" id="link_links" onclick="openTab(event, 'tab_links')">Links</button>
+	  <button class="tab_links shadow" id="link_help" onclick="openTab(event, 'tab_help')">Help</button>
 	</div>
 
 	<div id="tab_personen" class="tab_content">
@@ -378,20 +382,20 @@
 
 			</form>
 
-							<fieldset class="fieldset resultscontainer">
-	  							<legend class="legend">Resultaten</legend>
+			<fieldset class="fieldset resultscontainer">
+				<legend class="legend">Resultaten</legend>
 
-								<table id="results" class="resultstable">
-								{% for gemeente,url in resultaten %}
-								<tr onclick="window.open('{{url}}')";><td><A href="{{url}}"> {{gemeente}}</a></td></tr>
-								{% endfor %}
-								</table>
-							</fieldset>
+				<table id="results" class="resultstable">
+				{% for gemeente,url in resultaten %}
+				<tr onclick="window.open('{{url}}')";><td><A href="{{url}}"> {{gemeente}}</a></td></tr>
+				{% endfor %}
+				</table>
+			</fieldset>
 
-							<fieldset class="fieldset" id="fskaart">
-							<legend class="legend">Kaart</legend>
-								<div id="kaart" ></div>
-							</fieldset>
+			<fieldset class="fieldset" id="fskaart">
+			<legend class="legend">Kaart</legend>
+				<div class="kaart" id="kaart" ></div>
+			</fieldset>
 
 	</div>
 	<!--
@@ -403,7 +407,23 @@
 	</div>
 
 	<div id="tab_links" class="tab_content shadow">
-		nog even geduld !
+		<br>
+			<fieldset class="fieldset" id="fskaart">
+			<legend class="legend">Diverse archieven</legend>
+				<ul>
+				<li><a href="https://search.arch.be/">De zoekmachine van het Belgisch Rijksarchief</a></li>
+				<li><a href="https://www.arch-poperinge.be/">Vrijwilligers Intergemeentelijk Archief Poperinge-Vleteren, met o.a. klappers en akten voor een aantal gemeenten in Frans-Vlaanderen</a></li>
+				<li><a href="https://www.vrijwilligersrab.be">Database Akten West-Vlaanderen van de vrijwillgers van het RAB</a></li>
+				</ul>
+			</fieldset>
+			<fieldset class="fieldset" id="fskaart">
+			<legend class="legend">Tools</legend>
+				<ul>
+				<li><a href="https://arsfam.com/">Ars Familiae : links naar de gedigitaliseerde akten in het rijksarchief per gemeente, datum en type</a></li>
+				<li><a href="https://www.facebook.com/groups/familiekunde">Facebook groep Familiekunde Vlaanderen</a>
+				</li>
+				</ul>
+			</fieldset>
 	</div>
 
     </body>
