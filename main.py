@@ -99,12 +99,13 @@ class ResultsWorker(threading.Thread):
         threading.Thread.__init__(self)
 
     def generate_hit_map(self):
-        radius = self.__values['radius']
+        radius = int(self.__values['radius'])
         x, centre = get_city_location(self.__gemeentes[0])
+        print(centre, file=sys.stderr)
+        print(radius, file=sys.stderr)
         m = folium.Map(location=centre, zoom_start=10, height=550)
-        #circle = folium.Circle(location=centre, radius=radius * 1000)
-        #circle.add_to(m)
-
+        circle = folium.Circle(location=centre, radius=radius * 1000)
+        circle.add_to(m)
 
         if len(self.__gemeentes):
 
