@@ -1,6 +1,8 @@
 		body {
+		    height:100%;
 			background-color: #BBBBBB;
 		    font-family: "Times New Roman", Times, serif;
+		    position:relative;
 		}
 
 
@@ -9,12 +11,6 @@
 			background-color: #BBBBBB;
 		}
 
-		div {
-			background-color: #BBBBBB;
-		}
-
-		table {
-		}
 
 		th, td {
 		  text-align: left;
@@ -168,13 +164,36 @@
 		.pers2 {
 		}
 
-		.help {
-			background-color:black;
-			display:none;
-			position:absolute;
-			margin-left:auto;
-			margin-right:auto;
-			height:40em;
+		.center {
+          margin: auto;
+          position: absolute;
+        }
+
+        .helpcontents {
+            overflow:hidden;
+			overflow-y: auto;
+			height:400px;
+            -moz-border-radius:8px;
+            -webkit-border-radius:8px;
+            border-radius:8px;
+			border: 1px gray solid;
+        }
+
+		.contexthelp {
+		    display:none;
+            background-color: #ddd;
+            -moz-border-radius:8px;
+            -webkit-border-radius:8px;
+            border-radius:8px;
+            border: 2px orange solid;
+            padding: 0.2em 0.8em;
+            -webkit-box-shadow: 5px 5px 5px 0px rgba(50, 50, 50, 0.75);
+            -moz-box-shadow:    5px 5px 5px 0px rgba(50, 50, 50, 0.75);
+            box-shadow:         5px 5px 5px 0px rgba(50, 50, 50, 0.75);
+            z-index: 1;
+            background-color=#777;
+            width: 500px;
+            height: 500px;
 		}
 
 		.zoekregio {

@@ -12,6 +12,11 @@
 
 		var workerid = 0;
 
+		function close_help() {
+			console.log("close_help");
+			document.getElementById("contexthelp").style.display = "None";
+		}
+
 		  function toon_kaart() {
 			console.log("getting map for worker id "+ workerid)
 			  $.ajax({
@@ -33,13 +38,42 @@
 
 		 $(document).ready(function(){
 
+		var helpbuttons = document.querySelectorAll('.help');
+		console.log("helpbuttons :" + helpbuttons);
+
+		for (var i = 0; i < helpbuttons.length; i++) {
+		    console.log(helpbuttons[i])
+		  	helpbuttons[i].style.display = "inline-block";
+		  	helpbuttons[i].addEventListener('click', function(event) {
+		  	  document.getElementById("contexthelp").style.display = "block";
+		  	  document.getElementById("contexthelp").style.left = "50px";
+		  	  document.getElementById("contexthelp").style.top = event.clientY + "px";
+		  	  document.getElementById("helpcontents").innerHTML = "\
+		  	  <H3>Wildcards</b></H3>\
+		  	  Gebruik bij (voor)namen eventueel <i>wildcards</i> (* of .) <br><br>\
+		  	  <li> '.' staat voor eender welk karakter\
+		  	  <li> '*' staat voor 1 of meerdere van eender welk karakter\
+		  	  <br>\
+		  	  <br>\
+		  	  <b>Voorbeeld</b><br>\
+		  	  <br>\
+		  	  <LI><I>Jo*anna</I> komt overeen met 'Johanna' en 'Joanna'<br>\
+		  	  <LI><I>Van.damme</I> komt overeen met 'Vandamme' en 'Van damme'<br>\
+		  	  <LI><I>H*gheb*rt</I> komt overeen met 'H<b>u</b>ygheb<b>ae</b>rt', 'H<b>eu</b>gheb<b>ae</b>rt', 'H<b>eu</b>gheb<b>aa</b>rt', ....\
+		  	  <br><br><b>Opmerking</b><br><br>\
+		  	  Je kan geen wildcards gebruiken indien je bij 'zoekwijze' kiest voor 'klinkt als' !\
+		  	  "
+		  	  ;
+
+			});
+		}
+
 		// Find all inputs on the DOM which are bound to a datalist via their list attribute.
 		var inputs = document.querySelectorAll('input[list]');
 		for (var i = 0; i < inputs.length; i++) {
 			// When the value of the input changes...
 
 			inputs[i].addEventListener('pointerdown', function() {
-			  console.log("click " + this.id);
 			  this.value = '';
 			});
 			inputs[i].addEventListener('change', function() {
@@ -133,8 +167,6 @@
 		  })
 		  };
 
-
-
 		  function progress_bar_process(percentage)
 		  {
 			$('.progress-bar').css('width', percentage + '%');
@@ -170,11 +202,25 @@
 			  evt.currentTarget.className += " active";
 			}
 
+		function help(type) {
+			console.log(this + 'type')
+		}
+
 		</script>
 
 
     </head>
     <body>
+
+	<fieldset id="contexthelp" class="contexthelp center">
+		<legend class="legend">Help</legend>
+		<div id="closehelp" style="float:right"  onclick="close_help()"><u>Sluit</u></div>
+		<br>
+		<br>
+		<div class="helpcontents" id="helpcontents">
+		</div>
+
+	</fieldset>
 
 	<div class="tab">
 	  <button class="tab_links shadow" id="link_personen" style="margin-left:20px;" onclick="openTab(event, 'tab_personen')">Personen</button>
@@ -196,8 +242,13 @@
 							<fieldset class="fieldset pers1">
 	  							<legend class="legend">Persoon 1</legend>
 								<table >
-									<tr><td><label>Naam </label></td><td><input name="pers1_achternaam"  size=30></input></td></tr>
-									<tr><td><label>Voornaam </label></td><td><input name="pers1_voornaam"  size=30></input></td></tr>
+									<tr><td><label>Naam </label></td><td><input name="pers1_achternaam"  size=30></input>
+										<img class="help" name="naam" src="{{ url_for('static', filename='question.png') }}" height="15px" valign="center">
+										</td></tr>
+									<tr><td><label>Voornaam </label></td><td><input name="pers1_voornaam"  size=30></input>
+										<img class="help" name="naam" src="{{ url_for('static', filename='question.png') }}" height="15px" valign="center">
+										</td></tr>
+
 									<tr>
 										<td><label>Rol </label></td>
 										<td>
@@ -226,8 +277,12 @@
 							<fieldset class="fieldset pers2">
 	  							<legend class="legend">Persoon 2</legend>
 								<table>
-									<tr><td><label>Naam </label></td><td><input name="pers2_achternaam" size=30></input></td></tr>
-									<tr><td><label>Voornaam </label></td><td><input name="pers2_voornaam" size=30></input></td></tr>
+									<tr><td><label>Naam </label></td><td><input name="pers2_achternaam" size=30></input>
+										<img class="help" name="naam" src="{{ url_for('static', filename='question.png') }}" height="15px" valign="center">
+									</td></tr>
+									<tr><td><label>Voornaam </label></td><td><input name="pers2_voornaam" size=30></input>
+										<img class="help" name="naam" src="{{ url_for('static', filename='question.png') }}" height="15px" valign="center">
+									</td></tr>
 									<tr>
 										<td><label>Rol </label></td>
 										<td>
@@ -269,6 +324,7 @@
 										<td><label>Periode</label></td>
 										<td>
 										<input  name="akteperiode" id="periode"></input>
+											<!-- <img class="help" name="periode" src="{{ url_for('static', filename='question.png') }}" height="15px" valign="center"> -->
 										</td>
 									</tr>
 
