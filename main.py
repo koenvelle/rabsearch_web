@@ -240,6 +240,16 @@ def zoek_regio():
     print("zoek_regio_return", file=sys.stderr)
     return str(rw_id)
 
+@app.route("/zoek", methods=['POST'])
+def zoek():
+    global rws
+    r = requests.get("http://www.koenvelle.be/rabsearch/zoek_regio")
+    print(r, file=sys.stderr)
+    print(request.args, file=sys.stderr)
+    aktegemeente = request.form['aktegemeente']
+    url = create_url(request.form, aktegemeente)
+    return url
+
 @app.route("/")
 def index():
     r = requests.get("http://www.koenvelle.be/rabsearch/visit")

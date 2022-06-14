@@ -17,56 +17,57 @@
 			document.getElementById("contexthelp").style.display = "None";
 		}
 
-		  function toon_kaart() {
-			console.log("getting map for worker id "+ workerid)
-			  $.ajax({
-		   url:"/get_map?workerid="+workerid,
-		   method:"GET",
-		   beforeSend:function()
-		   {
-			$('#save').attr('disabled', 'disabled');
-			$('#process').css('display', 'block');
-		   },
-		   success:function(data)
-		   {
-			  console.log(data)
-			  document.getElementById("kaart").innerHTML = data ;
-		   }
-		  })
-		  };
+		function toon_kaart() {
+			console.log("getting map for worker id "+ workerid);
+			$.ajax({
+				url:"/get_map?workerid="+workerid,
+				method:"GET",
+				beforeSend:function()
+				{
+				$('#save').attr('disabled', 'disabled');
+				$('#process').css('display', 'block');
+				},
+				success:function(data)
+				{
+				  console.log(data)
+				  document.getElementById("kaart").innerHTML = data ;
+				}
+			})
+		};
 
 
 		 $(document).ready(function(){
 
-		var helpbuttons = document.querySelectorAll('.help');
-		console.log("helpbuttons :" + helpbuttons);
+		 	document.getElementById("zoek_regio").disabled = true;
 
-		for (var i = 0; i < helpbuttons.length; i++) {
-		    console.log(helpbuttons[i])
-		  	helpbuttons[i].style.display = "inline-block";
-		  	helpbuttons[i].addEventListener('click', function(event) {
-		  	  document.getElementById("contexthelp").style.display = "block";
-		  	  document.getElementById("contexthelp").style.left = "50px";
-		  	  document.getElementById("contexthelp").style.top = event.clientY + "px";
-		  	  document.getElementById("helpcontents").innerHTML = "\
-		  	  <H3>Wildcards</b></H3>\
-		  	  Gebruik bij (voor)namen eventueel <i>wildcards</i> (* of .) <br><br>\
-		  	  <li> '.' staat voor eender welk karakter\
-		  	  <li> '*' staat voor 1 of meerdere van eender welk karakter\
-		  	  <br>\
-		  	  <br>\
-		  	  <b>Voorbeeld</b><br>\
-		  	  <br>\
-		  	  <LI><I>Jo*anna</I> komt overeen met 'Johanna' en 'Joanna'<br>\
-		  	  <LI><I>Van.damme</I> komt overeen met 'Vandamme' en 'Van damme'<br>\
-		  	  <LI><I>H*gheb*rt</I> komt overeen met 'H<b>u</b>ygheb<b>ae</b>rt', 'H<b>eu</b>gheb<b>ae</b>rt', 'H<b>eu</b>gheb<b>aa</b>rt', ....\
-		  	  <br><br><b>Opmerking</b><br><br>\
-		  	  Je kan geen wildcards gebruiken indien je bij 'zoekwijze' kiest voor 'klinkt als' !\
-		  	  "
-		  	  ;
+			var helpbuttons = document.querySelectorAll('.help');
+			console.log("helpbuttons :" + helpbuttons);
 
-			});
-		}
+			for (var i = 0; i < helpbuttons.length; i++) {
+				console.log(helpbuttons[i])
+				helpbuttons[i].style.display = "inline-block";
+				helpbuttons[i].addEventListener('click', function(event) {
+					document.getElementById("contexthelp").style.display = "block";
+					document.getElementById("contexthelp").style.left = "50px";
+					document.getElementById("contexthelp").style.top = event.clientY + "px";
+					document.getElementById("helpcontents").innerHTML = "\
+					<H3>Wildcards</b></H3>\
+					Gebruik bij (voor)namen eventueel <i>wildcards</i> (* of .) <br><br>\
+					<li> '.' staat voor eender welk karakter\
+					<li> '*' staat voor 1 of meerdere van eender welk karakter\
+					<br>\
+					<br>\
+					<b>Voorbeeld</b><br>\
+					<br>\
+					<LI><I>Jo*anna</I> komt overeen met 'Johanna' en 'Joanna'<br>\
+					<LI><I>Van.damme</I> komt overeen met 'Vandamme' en 'Van damme'<br>\
+					<LI><I>H*gheb*rt</I> komt overeen met 'H<b>u</b>ygheb<b>ae</b>rt', 'H<b>eu</b>gheb<b>ae</b>rt', 'H<b>eu</b>gheb<b>aa</b>rt', ....\
+					<br><br><b>Opmerking</b><br><br>\
+					Je kan geen wildcards gebruiken indien je bij 'zoekwijze' kiest voor 'klinkt als' !\
+					"
+					;
+				});
+			}
 
 		// Find all inputs on the DOM which are bound to a datalist via their list attribute.
 		var inputs = document.querySelectorAll('input[list]');
@@ -75,7 +76,11 @@
 
 			inputs[i].addEventListener('pointerdown', function() {
 			  this.value = '';
+			  if (this.id == 'aktegemeente') {
+			  	document.getElementById("zoek_regio").disabled = true;
+			  	}
 			});
+
 			inputs[i].addEventListener('change', function() {
 				console.log("changed " + this.id);
 				control = this;
@@ -86,6 +91,9 @@
 				for (var j = 0; j < datalist.options.length; j++) {
 					if (control.value == datalist.options[j].value) {
 						optionFound = true;
+						if (control.value != '') {
+							document.getElementById("zoek_regio").disabled = false;
+						}
 						break;
 					}
 				}
@@ -94,7 +102,14 @@
 				if (optionFound) {
 					control.setCustomValidity('');
 				} else {
-					this.value = datalist.options[0].value;
+				  console.log(this.id);
+				  if (this.id == 'aktegemeente') {
+				    this.value = '';
+					document.getElementById("zoek_regio").disabled = true;
+				  }
+				  else {
+				    this.value = datalist.options[0].value;
+				  }
 				}
 			});
 		}
@@ -104,7 +119,7 @@
 
 		  var pollInterval;
 
-		 $('#sample_form').on('submit', function(event){
+		 $('#input_form').on('submit', function(event){
 		   event.preventDefault();
 			$.ajax({
 		   url:"/zoek_regio",
@@ -115,7 +130,7 @@
 			resultstable = document.getElementById("results").innerHTML = "";
 			$('#save').attr('disabled', 'disabled');
 			$('#process').css('display', 'block');
-			document.getElementById("submit").disabled = true;
+			document.getElementById("zoek_regio").disabled = true;
 		   },
 		   success:function(data)
 		   {
@@ -161,7 +176,7 @@
 			  if (parseInt(completion) == -1) {
 				toon_kaart();
 				console.log("search complete");
-				document.getElementById("submit").disabled = false
+				document.getElementById("zoek_regio").disabled = false
 			  }
 		   }
 		  })
@@ -203,8 +218,25 @@
 			}
 
 		function help(type) {
-			console.log(this + 'type')
-		}
+			console.log(this + 'type');
+		};
+
+		function search() {
+			$.ajax({
+		   url:"/zoek",
+		   method:"POST",
+		   data:$('#input_form').serialize(),
+		   beforeSend:function()
+		   {
+		   	console.log('fubar')
+		   },
+		   success:function(data)
+		   {
+		   	console.log(data);
+		   	window.open(data);
+		   }
+		  })
+		};
 
 		</script>
 
@@ -232,7 +264,7 @@
 	</div>
 
 	<div id="tab_personen" class="tab_content">
-			<form action="{{ url_for('zoek_regio') }}" method="post" id="sample_form">
+			<form action="{{ url_for('zoek_regio') }}" method="post" id="input_form">
 						<div class="personen">
 							<datalist id="rollen">
 							{% for id, rol in rollen %}
@@ -295,7 +327,7 @@
 
 
 							<fieldset class="fieldset zoekregio">
-	  							<legend class="legend">Zoekregio</legend>
+	  							<legend class="legend">Aktegemeente</legend>
 									<table>
 									<tr>
 										<td><label>Aktegemeente </label></td>
@@ -331,7 +363,10 @@
 
 									<tr><td><br></td></tr>
 									<tr>
-										<td><input id="submit" type="submit" name="zoek_regio" value="Zoek in omtrek"></input></td>
+										<td>
+											<button type="button" id="zoek"  name="zoek" value="Zoek" onclick="search()">Zoek</button>
+											<input id="zoek_regio" type="submit" name="zoek_regio" value="Zoek in regio"></input>
+										</td>
 									</tr>
 
 									</table>
