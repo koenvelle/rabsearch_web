@@ -112,7 +112,7 @@ class ResultsWorker(threading.Thread):
             for location in self.__hitmap_locations:
                 marker = folium.Marker(
                     [location[1], location[2]],
-                    popup="<a href=" + location[4] + "> Aantal hits: " + location[3] + "</a>",
+                    popup="<a href=\"" + location[4] + "\"target='_blank'> Aantal hits: " + location[3] + "</a>",
                     tooltip=location[0] + " hits: " + location[3]
                 )
                 marker.add_to(m)
