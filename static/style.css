@@ -342,3 +342,17 @@
 	    .tab_content#tab_personen {
 	     display: block;
 	    }
+
+	    .linkcontainer {
+	        display: inline-block;
+	        width : 600px;
+	        height:60px;
+	    	vertical-align: top;
+	    }
+
+	    .linktext {
+	        display: inline-block;
+	        width: 500px;
+	        height:60px;
+	    	vertical-align: inherit;
+	    }

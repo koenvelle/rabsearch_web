@@ -411,11 +411,24 @@
 			<fieldset class="fieldset" id="fskaart">
 			<legend class="legend">Diverse archieven</legend>
 			<div width="600px">
-				<ul>
-				<li><a href="https://search.arch.be/">De zoekmachine van het Belgisch Rijksarchief</a></li>
-				<li><a href="https://www.arch-poperinge.be/">Vrijwilligers Intergemeentelijk Archief Poperinge-Vleteren, met o.a. klappers en akten voor een aantal gemeenten in Frans-Vlaanderen</a></li>
-				<li><a href="https://www.vrijwilligersrab.be">Database Akten West-Vlaanderen van de vrijwillgers van het RAB</a></li>
-				</ul>
+				<a href="https://search.arch.be/">
+					<div class="linkcontainer" >
+						<img width="50px" src={{ url_for('static', filename='rablogo.jpg') }} >
+						<div class="linktext">De zoekmachine van het Belgisch Rijksarchief</div>
+					</div>
+				</a>
+				<a href="https://www.arch-poperinge.be">
+					<div class="linkcontainer" >
+						<img width="50px" src={{ url_for('static', filename='vpa.jpg') }} >
+						<div class="linktext">Vrijwilligers Intergemeentelijk Archief Poperinge-Vleteren, met o.a. klappers en akten voor een aantal gemeenten in Frans-Vlaanderen</div>
+					</div>
+				</a>
+				<a href="https://www.vrijwilligersrab.be">
+					<div class="linkcontainer" >
+						<img width="50px" src={{ url_for('static', filename='vrijwilligers_rab.jpg') }} >
+						<div class="linktext">Database Akten West-Vlaanderen van de vrijwillgers van het RAB</div>
+					</div>
+				</a>
 			</fieldset>
 			<fieldset class="fieldset" id="fskaart">
 			<legend class="legend">Tools</legend>
