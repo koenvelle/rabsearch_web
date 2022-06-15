@@ -3,6 +3,7 @@
 			background-color: #BBBBBB;
 		    font-family: "Times New Roman", Times, serif;
 		    position:relative;
+		    width:100%;
 		}
 
 
@@ -295,6 +296,7 @@
 		/* Style the tab */
 		.tab {
 		  overflow: hidden;
+		  min-width:650px;
 		}
 
 		/* Style the buttons inside the tab */
@@ -333,6 +335,7 @@
 
 		/* Style the tab content */
 		.tab_content {
+		  min-width:620px;
 		  display: none;
 		  padding: 6px 12px;
 		}
