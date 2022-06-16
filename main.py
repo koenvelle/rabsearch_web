@@ -12,6 +12,7 @@ import threading
 from geopy import distance
 import time
 import folium
+import totaalindex
 
 app = Flask(__name__)
 progress = 0
@@ -195,6 +196,29 @@ def get_map():
         map = rws[rw_id].generate_hit_map()
         return map
     return
+
+@app.route("/get_map_totaalindex", methods=['GET'])
+def get_map_totaalindex():
+    naam = request.args["naam"]
+    print("Requesting totaalindex map for naam " + str(naam), file=sys.stderr)
+
+    results = totaalindex.get_totaal_index(naam)
+    annotated_results = totaalindex.annotate_with_locations(results)
+
+    centre = (51.011310050000006, 4.192796388661321)
+
+    m = folium.Map(location=centre, zoom_start=8, height=600, width=1024)
+
+    for table, parochies in annotated_results:
+        for parochie in parochies:
+            location = parochie[1]
+            marker = folium.Marker(
+                [location[0], location[1]],
+                popup="<a href=\"https://dataindexen.familiekunde-vlaanderen.be\"target='_blank'> aktes :" +  parochie[2] + "</a>",
+                tooltip=parochie[0] + " " + parochie[2]
+            )
+            marker.add_to(m)
+    return m._repr_html_()
 
 
 @app.route("/get_progress", methods=['GET'])
