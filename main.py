@@ -199,15 +199,19 @@ def get_map():
 
 @app.route("/get_map_totaalindex", methods=['GET'])
 def get_map_totaalindex():
+    print(request.args)
     naam = request.args["naam"]
     print("Requesting totaalindex map for naam " + str(naam), file=sys.stderr)
 
     results = totaalindex.get_totaal_index(naam)
+    if len(results) == 0 :
+        print("no results for " + str(naam), file=sys.stderr)
+        return ""
     annotated_results = totaalindex.annotate_with_locations(results)
 
     centre = (51.011310050000006, 4.192796388661321)
 
-    m = folium.Map(location=centre, zoom_start=8, height=600, width=1024)
+    m = folium.Map(location=centre, zoom_start=8)
 
     for table, parochies in annotated_results:
         for parochie in parochies:
@@ -275,12 +279,20 @@ def zoek():
     url = create_url(request.form, aktegemeente)
     return url
 
+@app.route("/experimental")
+def index_experimental():
+    r = requests.get("http://www.koenvelle.be/rabsearch/visit")
+    print(r, file=sys.stderr)
+    resultaten = [];
+    return render_template("index.html",gemeentes=city_names, experimental='visible', rollen=person_roles, resultaten=resultaten)
+
+
 @app.route("/")
 def index():
     r = requests.get("http://www.koenvelle.be/rabsearch/visit")
     print(r, file=sys.stderr)
     resultaten = [];
-    return render_template("index.html",gemeentes=city_names, rollen=person_roles, resultaten=resultaten)
+    return render_template("index.html",gemeentes=city_names, experimental='hidden', rollen=person_roles, resultaten=resultaten)
 
 if __name__ == '__main__':
     app.run(threaded=False, processes=3)

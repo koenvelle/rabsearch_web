@@ -38,6 +38,13 @@
 
 		 $(document).ready(function(){
 
+		    document.getElementById("totaalindex_familienaam").onkeypress = function(e) {
+			var key = e.charCode || e.keyCode || 0;
+			if (key == 13) {
+			  e.preventDefault();
+			}
+			}
+
 		 	document.getElementById("zoek_regio").disabled = true;
 
 			var helpbuttons = document.querySelectorAll('.help');
@@ -214,11 +221,11 @@
 			  for (i = 0; i < tablinks.length; i++) {
 				tablinks[i].className = tablinks[i].className.replace(" active", "");
 				console.log("setting "+ tablinks[i].id)
-
 			  }
 			  document.getElementById(tabName).style.display = "block";
 			  evt.currentTarget.className += " active";
-			  console.log("clearing "+ evt.currentTarget.id)
+			  console.log("clearing "+ evt.currentTarget.id);
+
 			}
 
 		function help(type) {
@@ -242,6 +249,25 @@
 		  })
 		};
 
+		function search_totaalindex() {
+			console.log("getting map for worker id "+ workerid);
+			var familienaam = document.getElementById("totaalindex_familienaam").value;
+			$.ajax({
+				url:"/get_map_totaalindex?naam="+familienaam,
+				method:"GET",
+				beforeSend:function()
+		   		{
+		   			document.getElementById("kaart_totaalindex").innerHTML = "<img src=\"{{ url_for('static', filename='hourglass.gif') }}\" width=600>" ;
+		   		},
+
+				success:function(data)
+				{
+				  console.log(data)
+				  document.getElementById("kaart_totaalindex").innerHTML = data ;
+				}
+			})
+
+		}
 		</script>
 
 
@@ -255,16 +281,13 @@
 		<br>
 		<div class="helpcontents" id="helpcontents">
 		</div>
-
 	</fieldset>
 
 	<div class="tab">
 	  <button class="tab_links shadow" id="link_personen" style="margin-left:20px;" onclick="openTab(event, 'tab_personen')">Personen</button>
-		<!--
-	  <button class="tab_links shadow" id="link_archieven" onclick="openTab(event, 'tab_archieven')">Archieven</button>
-	  -->
-	  <button class="tab_links shadow" id="link_links" onclick="openTab(event, 'tab_links')">Links</button>
+	  <button class="tab_links shadow" id="link_links" onclick="openTab(event, 'tab_links') ">Links</button>
 	  <button class="tab_links shadow" id="link_help" onclick="openTab(event, 'tab_help')">Help</button>
+	  <button class="tab_links shadow" id="link_totaalindex" onclick="openTab(event, 'tab_totaalindex')" style="visibility:{{experimental}}">Totaalindex</button>
 	</div>
 
 	<div id="tab_personen" class="tab_content">
@@ -396,17 +419,50 @@
 			<legend class="legend">Kaart</legend>
 				<div class="kaart" id="kaart" ></div>
 			</fieldset>
-
 	</div>
 	<!--
 	<div id="tab_archieven" class="tab_content shadow">
 	</div>
 	-->
-	<div id="tab_help" class="tab_content shadow">
+	<div id="tab_help" class="tab_content">
 		nog even geduld !
 	</div>
 
-	<div id="tab_links" class="tab_content shadow">
+	<div id="tab_totaalindex" class="tab_content">
+			<fieldset class="fieldset" style="height:20em;">
+				<legend class="legend">Zoeken in de totaalindex Parochieregisters (Familiekunde Vlaanderen) </legend>
+				<form id="input_form_totaalindex">
+					<table>
+						<tr>
+							<td>
+								<h2>(Experimenteel)</h2>
+								Met behulp van dit onderdeel zoek je in de 'totaalindex parochieregisters' van
+								<a href="https://dataindexen.familiekunde-vlaanderen.be/">Familiekunde Vlaanderen</a>. Deze opzoeking toont je in welke gemeenten de familienaam in
+								de klappers van de parochieregisters voorkomt.<br>
+								Klikken op de markers op de kaart toont je of dit het geval is voor (d)oop, (huwelijk), of (o)verlijden.
+							</td>
+						</tr>
+						<tr>
+							<td><label>Familienaam </label>
+								<input name="totaalindex_familienaam" id="totaalindex_familienaam"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<button type="button" id="zoek_totaalindex"  name="zoek_totaalindex" value="Zoek" onclick="search_totaalindex()">Zoek</button>
+							</td>
+						</tr>
+					</table>
+				</form>
+			</fieldset>
+
+			<fieldset class="fieldset" id="fskaart_totaalindex" style="height:600px;">
+			<legend class="legend">Kaart</legend>
+				<div class="kaart" id="kaart_totaalindex" ></div>
+			</fieldset>
+	</div>
+
+	<div id="tab_links" class="tab_content">
 		<br>
 			<fieldset class="fieldset" id="fskaart">
 			<legend class="legend">Diverse archieven en verenigingen</legend>
@@ -440,9 +496,8 @@
 			<legend class="legend">Tools</legend>
 				<ul>
 				<li><a href="https://arsfam.com/">Ars Familiae : links naar de gedigitaliseerde akten in het rijksarchief per gemeente, datum en type</a></li>
-				<li><a href="https://www.facebook.com/groups/familiekunde">Facebook groep Familiekunde Vlaanderen</a>
-				<li><a href="https://watstaatdaer.nl/"Nederlandse site met info en oefeningen m.b.t. paleografie, het lezen van oude geschriften</a>
-				</li>
+				<li><a href="https://www.facebook.com/groups/familiekunde">Facebook groep Familiekunde Vlaanderen</a></li>
+				<li><a href="https://watstaatdaer.nl/">Nederlandse site met info en oefeningen m.b.t. paleografie, het lezen van oude geschriften</a></li>
 				</ul>
 			</fieldset>
 			</div>
