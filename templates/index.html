@@ -262,8 +262,51 @@
 
 				success:function(data)
 				{
-				  console.log(data)
-				  document.getElementById("kaart_totaalindex").innerHTML = data ;
+					datalist = JSON.parse(data);
+					table = datalist['table'];
+					resultstable = document.getElementById("table_totaalindex");
+					resultstable.innerHTML = "";
+					var n = 0;
+
+
+					for (var i = 0; i < table.length; i++) {
+						console.log(table[i])
+						var row = resultstable.insertRow(n);
+						row.insertCell().innerHTML = table[i]['locatie']
+
+						var d = '';
+						if (table[i]['d']) {
+							d = "<img src=\"static/check.png\" height=10>"
+						}
+						var h = '';
+						if (table[i]['h']) {
+							h = "<img src=\"static/check.png\" height=10>"
+						}
+						var o = '';
+						if (table[i]['o']) {
+							o = "<img src=\"static/check.png\" height=10>"
+						}
+						c = row.insertCell()
+						c.innerHTML = d;
+						c.className += " centered_cell"
+
+						c = row.insertCell()
+						c.innerHTML = h;
+						c.className += " centered_cell"
+
+						c = row.insertCell()
+						c.innerHTML = o;
+						c.className += " centered_cell"
+
+					}
+					var header = resultstable.createTHead();
+					var row = header.insertRow(0);
+					row.insertCell().innerHTML = "Locatie";
+					row.insertCell().innerHTML = "Doop";
+					row.insertCell().innerHTML = "Huwelijk";
+					row.insertCell().innerHTML = "Overlijden";
+					map = datalist['map']
+					document.getElementById("kaart_totaalindex").innerHTML = map ;
 				}
 			})
 
@@ -455,8 +498,15 @@
 					</table>
 				</form>
 			</fieldset>
+			<br>
+			<fieldset class="fieldset resultscontainer" style="height:600px;">
+				<legend class="legend">Resultaten</legend>
 
+				<table id="table_totaalindex" class="resultstable" >
+				</table>
+			</fieldset>
 			<fieldset class="fieldset" id="fskaart_totaalindex" style="height:600px;">
+
 			<legend class="legend">Kaart</legend>
 				<div class="kaart" id="kaart_totaalindex" ></div>
 			</fieldset>

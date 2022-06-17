@@ -19,6 +19,12 @@
 		  padding-bottom: 5px;
 		}
 
+		thead {
+		    text-align: center;
+		    color:white;
+		    background-color: black;
+		}
+
 		.range
 		{
 			width: 400px;
@@ -355,4 +361,9 @@
 	        width: 500px;
 	        height:60px;
 	    	vertical-align: inherit;
+	    }
+
+	    .centered_cell {
+	        text-align: center;
+	        vertical-align: middle;
 	    }

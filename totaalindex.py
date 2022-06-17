@@ -60,7 +60,6 @@ class DetailResultsParser(HTMLParser):
         return
 
     def handle_data(self, data):
-        #print("Encountered some data  :", data)
         if self.__expect_data:
             self.__rowdata.append(data)
             self.__expect_data = False

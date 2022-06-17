@@ -212,6 +212,7 @@ def get_map_totaalindex():
     centre = (51.011310050000006, 4.192796388661321)
 
     m = folium.Map(location=centre, zoom_start=8)
+    results_dict = []
 
     for table, parochies in annotated_results:
         for parochie in parochies:
@@ -222,7 +223,9 @@ def get_map_totaalindex():
                 tooltip=parochie[0] + " " + parochie[2]
             )
             marker.add_to(m)
-    return m._repr_html_()
+            d= {"locatie" : parochie[0], "d": 'd'in parochie[2], "h": 'h'in parochie[2], "o": 'o'in parochie[2]}
+            results_dict.append(d)
+    return json.dumps( {"table": results_dict, "map": m._repr_html_() } )
 
 
 @app.route("/get_progress", methods=['GET'])
