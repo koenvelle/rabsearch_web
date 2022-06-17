@@ -301,10 +301,18 @@
 					}
 					var header = resultstable.createTHead();
 					var row = header.insertRow(0);
-					row.insertCell().innerHTML = "Locatie";
-					row.insertCell().innerHTML = "Doop";
-					row.insertCell().innerHTML = "Huwelijk";
-					row.insertCell().innerHTML = "Overlijden";
+					c = row.insertCell();
+					c.innerHTML = "Locatie";
+					c.className += " blackcell"
+					c = row.insertCell();
+					c.innerHTML = "Doop";
+					c.className += " centered_cell blackcell"
+					c = row.insertCell();
+					c.innerHTML = "Huwelijk";
+					c.className += " centered_cell blackcell"
+					c = row.insertCell();
+					c.innerHTML = "Overlijden";
+					c.className += " centered_cell blackcell"
 					map = datalist['map']
 					document.getElementById("kaart_totaalindex").innerHTML = map ;
 				}

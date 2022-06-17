@@ -19,8 +19,7 @@
 		  padding-bottom: 5px;
 		}
 
-		thead {
-		    text-align: center;
+		.blackcell {
 		    color:white;
 		    background-color: black;
 		}
