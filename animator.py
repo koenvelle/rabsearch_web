@@ -4,6 +4,7 @@ import citylocs
 import folium
 import os
 import time
+
 from pathlib import Path
 
 from selenium import webdriver
@@ -14,6 +15,9 @@ import imageio
 
 def get_all_baptisms(name):
     values = {
+        'vrij_tekst': '',
+        'vrij_periode': '',
+        'vrij_plaats': '',
         'pers1_voornaam':'',
         'pers1_achternaam':name,
         'pers2_voornaam': '',
@@ -33,16 +37,18 @@ def get_all_baptisms(name):
     r = requests.get(url)
 
     results = []
-    startrecord = 0
 
-    parser = PersonResultsParser(results)
-    while startrecord is not None:
-        url = create_url(values, startrecord=startrecord)
-        print(url)
-        r = requests.get(url)
-        parser = PersonResultsParser(results)
-        parser.feed(r.text)
-        startrecord = parser.next_record()
+    for role in ['Dopeling', 'Kind']:
+        values['pers1_rol'] = role
+        startrecord = 0
+
+        while startrecord is not None:
+            url = create_url(values, startrecord=startrecord)
+            print(url)
+            r = requests.get(url)
+            parser = PersonResultsParser(results)
+            parser.feed(r.text)
+            startrecord = parser.next_record()
 
     print(len(results))
     return results
@@ -70,39 +76,46 @@ def bucketize_by_decade(entries):
             buckets[0].append(e)
     return buckets
 
-def create_animation(decade_buckets, create_gif = False):
+def create_animation(name, decade_buckets, create_gif = False):
     maps = []
-    centre = (51.011310050000006, 4.192796388661321)
+    place, centre = citylocs.get_city_location("WALHAIN")
 
     for dec, entries in decade_buckets.items():
-        m = folium.Map(location=centre, zoom_start=9)
-        m.png_enabled
-        for e in entries:
-            location = e[1]
-            marker = folium.Marker(location,
-                popup="",
-                tooltip=""
-            )
-            marker.add_to(m)
-        fname = str(dec)
-        title_html = '''
-                     <h3 align="left" style="font-size:22px"><b>{}</b></h3>
-                     '''.format('Decade: ' + str(dec*10))
-        m.get_root().html.add_child(folium.Element(title_html))
-        maps.append((dec, m._repr_html_()))
-        if create_gif:
-            m.save(fname+".html")
-            tmpurl = 'file://{path}/{mapfile}.html'.format(path=os.getcwd(), mapfile=fname)
+        if dec != 0:
+            m = folium.Map(location=centre, zoom_start=8, width=1024, height=620)
+            m.png_enabled
+            for e in entries:
+                location = e[1]
+                marker = folium.Marker(location,
+                    popup="",
+                    tooltip=""
+                )
+                marker.add_to(m)
+            fname = str(dec)
+            title_html = '''
+                         <h3 align="left" style="font-size:22px"><b>{}</b></h3>
+                         '''.format('Geboortes (PR/BS) familie '+name + ' jaren: ' + str(dec*10) + "-" + str(dec*10+9))
+            m.get_root().html.add_child(folium.Element(title_html))
+            maps.append((dec, m._repr_html_()))
+            if create_gif:
+                m.save(fname+".html")
+                tmpurl = 'file://{path}/{mapfile}.html'.format(path=os.getcwd(), mapfile=fname)
 
-            browser = webdriver.Chrome()
-            browser.maximize_window()
-            browser.get(tmpurl)
+                browser = webdriver.Chrome()
+                browser.set_window_size(1100, 850)
+                browser.get(tmpurl)
 
-            # Give the map tiles some time to load
-            time.sleep(2)
-            browser.save_screenshot(fname + '.png')
-            browser.quit()
-            os.remove(fname+".html")
+                # Give the map tiles some time to load
+                time.sleep(2)
+                browser.save_screenshot(fname + '.png')
+                browser.quit()
+
+                #image = Image.open(fname + '.png')
+                #box = (0, 0, 1024, 620)
+                #cropped_image = image.crop(box)
+                #cropped_image.save('total_perYear_' + str(i) + '.png')
+
+                os.remove(fname+".html")
 
     if create_gif:
         image_path = Path()
@@ -113,7 +126,7 @@ def create_animation(decade_buckets, create_gif = False):
             image_list.append(imageio.imread(file_name))
             os.remove(file_name)
 
-        imageio.mimwrite('GifMap.gif', image_list, fps=2)
+        imageio.mimwrite('GifMap.gif', image_list, fps=1)
     return maps
 
 def geolocate(entries):
@@ -160,6 +173,7 @@ class PersonResultsParser(HTMLParser):
         self.__expectcounterdata = False
         self.__results = results
         self.__recordtotal = 0
+        self.__recordend = False
         self.__recordfinal = False
 
     def handle_starttag(self, tag, attrs):
@@ -221,7 +235,9 @@ class PersonResultsParser(HTMLParser):
             return None
         return self.__recordend
 
-results = get_all_baptisms('Dossche')
+
+name = 'Velle'
+results = get_all_baptisms(name)
 print(results[1])
 
 geolocated, notfound = geolocate(results)
@@ -230,5 +246,5 @@ print('entries without location :'+ str(len(notfound)))
 print(geolocated)
 decade_buckets = bucketize_by_decade(geolocated)
 print('entries without date :'+ str(len(decade_buckets[0])))
-create_animation(decade_buckets, create_gif=True)
+create_animation(name, decade_buckets, create_gif=True)
 
