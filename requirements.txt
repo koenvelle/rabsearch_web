@@ -5,3 +5,5 @@ folium
 pyinstaller
 gunicorn
 flask
+selenium
+chromedriver

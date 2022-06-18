@@ -268,7 +268,6 @@
 					resultstable.innerHTML = "";
 					var n = 0;
 
-
 					for (var i = 0; i < table.length; i++) {
 						console.log(table[i])
 						var row = resultstable.insertRow(n);
@@ -343,6 +342,19 @@
 
 	<div id="tab_personen" class="tab_content">
 			<form action="{{ url_for('zoek_regio') }}" method="post" id="input_form">
+						<div class="vrij_zoeken" >
+							<fieldset class="fieldset pers1" style="height:8em;">
+	  							<legend class="legend">Vrij Zoeken</legend>
+								<table >
+									<tr><td><label>Tekst </label></td><td><input name="vrij_tekst" size=30></input>
+										<img class="help" name="vrij" src="{{ url_for('static', filename='question.png') }}" height="15px" valign="center">
+										</td></tr>
+									<tr><td><label>Periode </label></td><td><input name="vrij_periode"  size=30></input>
+										</td></tr>
+									<tr><td><label>Plaats </label></td><td><input name="vrij_plaats" size=30></input>
+										</td></tr>
+								</table>
+						</div>
 						<div class="personen">
 							<datalist id="rollen">
 							{% for id, rol in rollen %}

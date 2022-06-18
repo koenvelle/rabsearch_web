@@ -2903,4 +2903,6 @@ citylocs=[
 city_names = [v[0] for i, v in enumerate(citylocs)]
 
 def get_city_location(src):
+    if src not in city_names:
+        return (str(src + " niet in lijst"),(0,0))
     return citylocs[next((i for i, v in enumerate(citylocs) if v[0] == src))]
